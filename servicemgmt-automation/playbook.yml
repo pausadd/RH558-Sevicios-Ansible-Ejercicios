@@ -1,0 +1,25 @@
+---
+- name: Configure 2nd network interface
+  hosts: servers
+  become: true
+
+  tasks:
+    - name: Confirm NetworkManager is running
+      service:
+        name: NetworkManager
+        state: started
+        enabled: true
+
+    - name: Find the_interface for target_mac
+      set_fact:
+        the_interface: "{{ item }}"
+      when:
+        - ansible_facts[item]['macaddress'] is defined
+        - ansible_facts[item]['macaddress'] == target_mac
+      loop: "{{ ansible_facts['interfaces'] }}"
+
+    - name: Display the_interface
+      debug:
+        var: the_interface
+
+
