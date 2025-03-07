@@ -1,0 +1,15 @@
+---
+- name: Tune team network device
+  hosts: servers
+  become: true
+
+  tasks:
+    - name: Tune team runner to activebackup
+      command: nmcli con mod team0 team.runner activebackup
+      changed_when: false
+
+    - name: Disconnect team interface
+      command: nmcli dev dis team0
+
+    - name: Reactivate team interface
+      command: nmcli con up team0

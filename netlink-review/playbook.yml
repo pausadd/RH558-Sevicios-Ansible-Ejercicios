@@ -1,0 +1,39 @@
+---
+  - name: Configure team network device
+    hosts: servers
+    become: true
+
+    vars:
+      network_connections:
+        - name: team1
+          state: up
+          type: team
+
+          interface_name: team1
+          ip:
+            dhcp4: no
+            auto6: no
+            address:
+              - "10.1.1.10/24"
+
+        - name: team1-port1
+          state: up
+          type: ethernet          
+          interface_name: eth1
+          master: team1
+
+        - name: team1-port2
+          state: up
+          type: ethernet
+          interface_name: eth2
+          master: team1
+
+    roles:
+      - rhel-system-roles.network
+
+    tasks:
+    - name: Tune team runner to activebackup
+      command: nmcli con mod team1 team.runner activebackup
+
+    - name: Reboot the server
+      reboot:
