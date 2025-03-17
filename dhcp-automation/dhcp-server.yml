@@ -1,0 +1,50 @@
+---
+- name: Deploy a DHCPv4 and DHCPv6 server
+  hosts: servera.lab.example.com
+  become: true
+  vars:
+    network_connections:
+      - name: static_net
+        type: ethernet
+        mac: "{{ mac_if2 }}"
+        state: up
+        ip:
+          address:
+            - 192.168.0.10/24
+            - fde2:6494:1e09:2::a/64
+
+  roles:
+    - rhel-system-roles.network
+
+  tasks:
+    - name: the dhcp-server package is installed
+      #FIXME: see "ansible-doc yum" for some examples
+
+    - name: the DHCPv4 configuration file is deployed
+      #FIXME: see "ansible-doc copy" for some examples.
+      #       Copy files/dhcpd.conf to /etc/dhcp/dhcpd.conf
+      #       on servera
+      notify: reload dhcpd
+
+    - name: the DHCPv6 configuration file is deployed
+      #FIXME: see "ansible-doc copy" for some examples.
+      #       Copy files/dhcpd6.conf to /etc/dhcp/dhcpd6.conf
+      #       on servera
+      notify: reload dhcpd6
+
+    - name: the dhcpd and dhcpd6 services are started and enabled
+      #FIXME: see "ansible-doc service" for some examples
+
+    - name: the dhcp and dhcpv6 firewall services are opened
+      #FIXME: see "ansible-doc firewalld" for some examples
+
+  handlers:
+    - name: reload dhcpd
+      service:
+        name: dhcpd
+        state: restarted
+
+    - name: reload dhcpd6
+      service:
+        name: dhcpd6
+        state: restarted

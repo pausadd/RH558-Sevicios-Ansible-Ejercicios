@@ -1,0 +1,42 @@
+---
+- name: Deploy a DHCPv6 server
+  hosts: servera.lab.example.com
+  become: true
+  vars:
+    # Configure an IPv6 address on servera
+    network_connections:
+      - name: "lab-conn"
+        type: ethernet
+        mac: "{{ mac_if2 }}"
+        state: up
+        ip:
+          address:
+            - 10.1.1.1/24
+            - fde2:6494:1e09:2::a/64
+    # Define the variables expected by the templates/dhcpd6.conf.j2 template
+    IPv6_prefix: #FIXME
+    IPv6_#FIXME
+    ...#FIXME
+
+  roles:
+    - rhel-system-roles.network
+
+  tasks:
+    - name: the dhcp-server package is installed
+      #FIXME
+
+    - name: the DHCPv6 configuration file is deployed
+      #FIXME: deploy the templates/dhcpd6.conf.j2 template file
+      notify: reload dhcpd6
+
+    - name: the dhcpd6 service is started and enabled
+      #FIXME
+
+    - name: the dhcpv6 firewall service is opened
+      #FIXME
+
+  handlers:
+    - name: reload dhcpd6
+      service:
+        name: dhcpd6
+        state: restarted

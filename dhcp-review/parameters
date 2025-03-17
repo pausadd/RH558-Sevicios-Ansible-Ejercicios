@@ -1,0 +1,5 @@
+      prefix: fde2:6494:1e09:2::/64
+ range start: fde2:6494:1e09:2::20
+   range end: fde2:6494:1e09:2::60
+ name server: fde2:6494:1e09:2::d
+      domain: backend.lab.example.com

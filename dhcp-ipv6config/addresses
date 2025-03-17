@@ -1,0 +1,7 @@
+       prefix: fde2:6494:1e09:2::/64
+ servera IPv6: fde2:6494:1e09:2::a/64
+ serverb IPv6: fde2:6494:1e09:2::b/64
+ serverc IPv6: fde2:6494:1e09:2::c/64
+ serverd IPv6: fde2:6494:1e09:2::d/64
+  range start: fde2:6494:1e09:2::20
+    range end: fde2:6494:1e09:2::60
